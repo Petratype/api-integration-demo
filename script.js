@@ -1,21 +1,22 @@
-document.getElementById("fetch-joke").addEventListener("click", fetchJoke);
+document.getElementById("fetch-pokemon").addEventListener("click", fetchPokemon);
 
-async function fetchJoke() {
-    const setupEl = document.getElementById("joke-setup");
-    const punchlineEl = document.getElementById("joke-punchline");
+async function fetchPokemon() {
+    const nameEl = document.getElementById("pokemon-name");
+    const imgEl = document.getElementById("pokemon-img");
 
-    setupEl.textContent = "Loading joke...";
-    punchlineEl.textContent = "";
+    nameEl.textContent = "Loading...";
+    imgEl.src = "";
 
     try {
-        const res = await fetch("https://official-joke-api.appspot.com/random_joke");
+        const randomId = Math.floor(Math.random() * 151) + 1; // First 151 Pokémon
+        const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${randomId}`);
         const data = await res.json();
 
-        setupEl.textContent = data.setup;
-        punchlineEl.textContent = data.punchline;
+        nameEl.textContent = data.name;
+        imgEl.src = data.sprites.front_default;
 
     } catch (error) {
-        setupEl.textContent = "Oops… something went wrong.";
-        punchlineEl.textContent = "";
+        nameEl.textContent = "Oops… something went wrong.";
+        imgEl.src = "";
     }
 }
